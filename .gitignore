@@ -1,0 +1,27 @@
+# Configuration with sensitive data
+config.json
+
+# State files
+menu_state.json
+
+# Downloaded menus
+menus/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
