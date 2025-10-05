@@ -1,8 +1,6 @@
-# Configuration with sensitive data
+# Configuration and state filess
 config.json
-
-# State files
-menu_state.json
+state.json
 
 # Downloaded menus
 menus/
