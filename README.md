@@ -1,4 +1,4 @@
-# Menu Checker for Paiper Lek
+# Menu Checker
 
 Automatically checks for new menus on https://paiperlek.lu/kantin/ for SEA Gonderange/Bourglinster and sends the PDF by email when a new menu is available.
 

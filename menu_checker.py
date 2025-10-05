@@ -105,7 +105,12 @@ class MenuChecker:
         response = requests.get(pdf_url, headers=headers)
         response.raise_for_status()
         
-        # Generate filename
+        # Delete all previous menu files
+        for old_file in self.download_dir.glob('menu_*.pdf'):
+            old_file.unlink()
+            print(f"Deleted old file: {old_file.name}")
+        
+        # Generate filename with timestamp
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         filename = self.download_dir / f'menu_{timestamp}.pdf'
         
