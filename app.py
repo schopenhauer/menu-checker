@@ -153,8 +153,7 @@ Downloaded: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
 Please find the PDF attached.
 
-Best regards,
-Menu Checker
+Gudden Appetit!
 """
         msg.attach(MIMEText(body, 'plain'))
         
