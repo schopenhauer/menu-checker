@@ -46,7 +46,7 @@ Automatically checks for new menus on https://paiperlek.lu/kantin/ for SEA Gonde
 
 Run the script manually:
 ```bash
-python menu_checker.py
+python app.py
 ```
 
 ### Automated Checks with Cron
@@ -59,29 +59,21 @@ crontab -e
 
 Add this line:
 ```
-0 8 * * * cd /home/soda/code/menu && /home/soda/code/menu/venv/bin/python /home/soda/code/menu/menu_checker.py >> /home/soda/code/menu/menu_checker.log 2>&1
+0 8 * * * cd /home/soda/code/menu && /home/soda/code/menu/venv/bin/python /home/soda/code/menu-checker/app.py >> /home/soda/code/menu-checker/app.log 2>&1
 ```
 
 Or check every weekday (Monday-Friday) at 8 AM:
 ```
-0 8 * * 1-5 cd /home/soda/code/menu && /home/soda/code/menu/venv/bin/python /home/soda/code/menu/menu_checker.py >> /home/soda/code/menu/menu_checker.log 2>&1
+0 8 * * 1-5 cd /home/soda/code/menu && /home/soda/code/menu/venv/bin/python /home/soda/code/menu-checker/app.py >> /home/soda/code/menu-checker/app.log 2>&1
 ```
 
 ## How It Works
 
 1. **Scrapes the website** to find the PDF link for SEA Gonderange/Bourglinster
 2. **Downloads the PDF** and calculates its hash
-3. **Compares** with the previously downloaded menu (stored in `menu_state.json`)
+3. **Compares** with the previously downloaded menu (stored in `state.json`)
 4. **Sends an email** with the PDF attachment if a new menu is detected
 5. **Stores the state** to avoid sending duplicate notifications
-
-## Files
-
-- `menu_checker.py` - Main script
-- `config.json` - Email configuration (not in git)
-- `menu_state.json` - Tracks the last menu (auto-generated)
-- `menus/` - Downloaded PDFs (auto-created)
-- `requirements.txt` - Python dependencies
 
 ## Troubleshooting
 

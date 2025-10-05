@@ -22,7 +22,7 @@ class MenuChecker:
     def __init__(self, config_file='config.json'):
         self.url = 'https://paiperlek.lu/kantin/'
         self.section = 'SEA Gonderange/ Bourglinster'
-        self.state_file = 'menu_state.json'
+        self.state_file = 'state.json'
         self.download_dir = Path('menus')
         self.download_dir.mkdir(exist_ok=True)
         
