@@ -2,6 +2,14 @@
 
 Automatically checks for new menus on https://paiperlek.lu/kantin/ for SEA Gonderange/Bourglinster and sends the PDF by email when a new menu is available.
 
+## How It Works
+
+1. **Scrapes the website** to find the PDF link for SEA Gonderange/Bourglinster
+2. **Downloads the PDF** and calculates its hash
+3. **Compares** with the previously downloaded menu (stored in `state.json`)
+4. **Sends an email** with the PDF attachment if a new menu is detected
+5. **Stores the state** to avoid sending duplicate notifications
+
 ## Setup
 
 1. **Create virtual environment** (if not already done):
@@ -49,7 +57,7 @@ Run the script manually:
 python app.py
 ```
 
-### Automated Checks with Cron
+### Automated Checks (Cron)
 
 To check automatically every day at 8 AM, add this to your crontab:
 
@@ -61,32 +69,3 @@ Add this line:
 ```
 0 8 * * * cd /home/soda/code/menu && /home/soda/code/menu/venv/bin/python /home/soda/code/menu-checker/app.py >> /home/soda/code/menu-checker/app.log 2>&1
 ```
-
-Or check every weekday (Monday-Friday) at 8 AM:
-```
-0 8 * * 1-5 cd /home/soda/code/menu && /home/soda/code/menu/venv/bin/python /home/soda/code/menu-checker/app.py >> /home/soda/code/menu-checker/app.log 2>&1
-```
-
-## How It Works
-
-1. **Scrapes the website** to find the PDF link for SEA Gonderange/Bourglinster
-2. **Downloads the PDF** and calculates its hash
-3. **Compares** with the previously downloaded menu (stored in `state.json`)
-4. **Sends an email** with the PDF attachment if a new menu is detected
-5. **Stores the state** to avoid sending duplicate notifications
-
-## Troubleshooting
-
-### Email not sending
-- Check your SMTP credentials in `config.json`
-- For Gmail, ensure you're using an App Password
-- Check if your email provider requires SSL instead of TLS
-
-### PDF not found
-- The website structure may have changed
-- Check the script output for error messages
-- You may need to adjust the HTML parsing logic
-
-### Permission denied
-- Make the script executable: `chmod +x menu_checker.py`
-- Check file permissions for the directory
