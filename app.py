@@ -43,49 +43,48 @@ class MenuChecker:
         """Find the PDF link for the specified section."""
         soup = BeautifulSoup(html_content, 'html.parser')
         
-        # Look for the section heading
-        section_found = False
         pdf_url = None
         
-        # Find all text elements that might contain the section name
-        for element in soup.find_all(['h2', 'h3', 'h4', 'p', 'div', 'span']):
+        # Strategy 1: Find the exact heading "SEA Gonderange/ Bourglinster" and look for PDF link after it
+        for element in soup.find_all(['h2', 'h3', 'h4']):
             text = element.get_text(strip=True)
-            if self.section in text or 'SEA Gonderange' in text:
-                section_found = True
-                # Look for PDF link near this element
-                # Check within the same parent or nearby elements
+            if 'SEA Gonderange' in text and 'Bourglinster' in text:
+                # Found the heading, now look for the next PDF link after this element
+                # Check the immediate parent div and its children
                 parent = element.parent
-                for _ in range(3):  # Check up to 3 levels up
-                    if parent:
-                        links = parent.find_all('a', href=re.compile(r'\.pdf$', re.I))
-                        if links:
-                            pdf_url = links[0].get('href')
+                if parent:
+                    # Look for PDF links only in this specific section (not in previous siblings)
+                    links = parent.find_all('a', href=re.compile(r'\.pdf$', re.I))
+                    for link in links:
+                        href = link.get('href', '').lower()
+                        # Make sure it's the Gonderange PDF, not Junglinster
+                        if 'gonderange' in href and 'jgl' not in href.upper():
+                            pdf_url = link.get('href')
                             break
-                        parent = parent.parent
-                
-                # Also check siblings
-                if not pdf_url:
-                    sibling = element.find_next_sibling()
-                    for _ in range(5):  # Check next 5 siblings
-                        if sibling:
-                            links = sibling.find_all('a', href=re.compile(r'\.pdf$', re.I))
-                            if links:
-                                pdf_url = links[0].get('href')
-                                break
-                            sibling = sibling.find_next_sibling()
-                        else:
+                        # Also accept if the filename contains 'gonderange'
+                        if 'gonderange' in href:
+                            pdf_url = link.get('href')
                             break
                 
                 if pdf_url:
                     break
         
-        # If not found by section, look for any PDF with relevant keywords
+        # Strategy 2: Look for PDF links with 'gonderange' in the filename
+        if not pdf_url:
+            for link in soup.find_all('a', href=re.compile(r'\.pdf$', re.I)):
+                href = link.get('href', '').lower()
+                # Check if the URL contains 'gonderange' and exclude Junglinster PDFs
+                if 'gonderange' in href and 'jgl' not in href.upper():
+                    pdf_url = link.get('href')
+                    break
+        
+        # Strategy 3: Fallback - look for any PDF with Gonderange/Bourglinster keywords
         if not pdf_url:
             for link in soup.find_all('a', href=re.compile(r'\.pdf$', re.I)):
                 link_text = link.get_text(strip=True).lower()
                 href = link.get('href', '').lower()
-                if any(keyword in link_text or keyword in href 
-                       for keyword in ['gonderange', 'bourglinster', 'sea']):
+                # Make sure we're not picking up the Junglinster menu
+                if ('gonderange' in href or 'bourglinster' in href) and 'junglinster' not in href:
                     pdf_url = link.get('href')
                     break
         
