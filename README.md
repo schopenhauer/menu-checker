@@ -14,7 +14,7 @@ Automatically checks for new menus on https://paiperlek.lu/kantin/ for SEA Gonde
 
 1. **Create virtual environment** (if not already done):
    ```bash
-   python3 -m venv venv
+   python -m venv venv
    source venv/bin/activate
    ```
 
@@ -67,5 +67,5 @@ crontab -e
 
 Add this line:
 ```
-0 8 * * * cd /home/soda/code/menu && /home/soda/code/menu/venv/bin/python /home/soda/code/menu-checker/app.py >> /home/soda/code/menu-checker/app.log 2>&1
+0 8 * * * cd /code/menu && /code/menu/venv/bin/python /code/menu/app.py >> /code/menu/app.log 2>&1
 ```

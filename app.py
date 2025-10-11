@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """
-Menu Checker for Paiper Lek
 Checks if there's a new menu available for SEA Gonderange/Bourglinster
 and sends the PDF by email if found.
 """
@@ -143,7 +142,7 @@ class MenuChecker:
         
         # Email body
         body = f"""
-Hello,
+Moien,
 
 A new menu is available for SEA Gonderange/Bourglinster.
 
@@ -221,7 +220,6 @@ Gudden Appetit!
             self.save_state(state)
             return False
 
-
 def main():
     """Main entry point."""
     checker = MenuChecker()
@@ -230,7 +228,6 @@ def main():
     except Exception as e:
         print(f"✗ Error: {e}")
         raise
-
 
 if __name__ == '__main__':
     main()
